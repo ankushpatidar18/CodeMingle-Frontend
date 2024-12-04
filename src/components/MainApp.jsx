@@ -4,6 +4,8 @@ import AppLayout from './AppLayout'
 import Body from './Body'
 import SignUp from './SignUp'
 import LogIn from './LogIn'
+import { Provider } from 'react-redux'
+import store from '../utils/store'
 
 const MainApp = () => {
     const appRouter = createBrowserRouter([
@@ -28,7 +30,9 @@ const MainApp = () => {
     ])
   return (
     <div>
+      <Provider store={store}>
       <RouterProvider router={appRouter} />
+      </Provider>
     </div>
   )
 }
