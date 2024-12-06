@@ -3,21 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { updateUser } from "../utils/slices/userSlice";
-import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
   const user = useSelector((state) => state.user); // Fetch user data from Redux store
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  // Redirect to login if not logged in
-  useEffect(() => {
-    if (!user) {
-    toast.error("You need to log in to access your profile.");
-    navigate("/login");
-      
-    }
-  }, [user,navigate]);
+  
 
   const [formData, setFormData] = useState({
     firstName: user?.firstName || "",
@@ -54,7 +46,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(
+      const response = await axios.patch(
         "http://localhost:8080/profile/edit",
         formData,
         { withCredentials: true }

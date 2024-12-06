@@ -24,7 +24,7 @@ const LogIn = () => {
         formData,
         { withCredentials: true } // Sends the cookie back
       );
-      console.log(response)
+      
       dispatch(addUser(response.data.data));
       toast.success(response.data.message, {
         position: "top-right",

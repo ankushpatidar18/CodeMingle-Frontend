@@ -13,7 +13,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     const response = await axios.post("http://localhost:8080/logout",{},{withCredentials : true})
-    console.log(response)
+   
     dispatch(removeUser());
     toast.success(response.data.message, {
       position: "top-right",
@@ -80,7 +80,7 @@ const Header = () => {
         <Link to="/requests">Requests</Link>
       </li>
       <li className="px-4  hover:bg-gray-800 flex items-center gap-2">
-        <Link to="/change-password">Change Password</Link>
+        <Link to="/password">Change Password</Link>
         <span className="material-icons text-gray-600 ml-1">⚙️</span>
       </li>
       <li

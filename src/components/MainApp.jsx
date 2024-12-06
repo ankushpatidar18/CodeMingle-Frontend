@@ -7,33 +7,46 @@ import LogIn from './LogIn'
 import { Provider } from 'react-redux'
 import store from '../utils/store'
 import Profile from './Profile'
+import Password from './Password'
+import PrivateRoute from './PrivateRoute'
 
 const MainApp = () => {
-    const appRouter = createBrowserRouter([
-        {
-            path : '/',
-            element : <AppLayout/>,
-            children : [
-                {
-                    path : "/",
-                    element : <Body/>
-                },
-      
-                {
-                  path : "/signup",
-                  element : <SignUp/>
-                },
-                {
-                  path : "/login",
-                  element : <LogIn/>
-                },
-                {
-                  path : "/profile",
-                  element : <Profile/>
-                }
-            ]
-        }
-    ])
+  const appRouter = createBrowserRouter([
+    {
+        path: '/',
+        element: <AppLayout />,
+        children: [
+            {
+                path: "/",
+                element: <Body />
+            },
+            {
+                path: "/signup",
+                element: <SignUp />
+            },
+            {
+                path: "/login",
+                element: <LogIn />
+            },
+            {
+                path: "/profile",
+                element: (
+                    <PrivateRoute>
+                        <Profile />
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/password",
+                element: (
+                    <PrivateRoute>
+                        <Password />
+                    </PrivateRoute>
+                )
+            }
+        ]
+    }
+]);
   return (
     <div>
       <Provider store={store}>
