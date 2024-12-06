@@ -6,6 +6,7 @@ import SignUp from './SignUp'
 import LogIn from './LogIn'
 import { Provider } from 'react-redux'
 import store from '../utils/store'
+import Profile from './Profile'
 
 const MainApp = () => {
     const appRouter = createBrowserRouter([
@@ -17,6 +18,7 @@ const MainApp = () => {
                     path : "/",
                     element : <Body/>
                 },
+      
                 {
                   path : "/signup",
                   element : <SignUp/>
@@ -24,6 +26,10 @@ const MainApp = () => {
                 {
                   path : "/login",
                   element : <LogIn/>
+                },
+                {
+                  path : "/profile",
+                  element : <Profile/>
                 }
             ]
         }

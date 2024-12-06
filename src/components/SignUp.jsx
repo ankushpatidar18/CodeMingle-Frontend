@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/slices/userSlice';
+import { Bounce, toast } from 'react-toastify';
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const SignUp = () => {
   });
 
   const [error, setError] = useState(""); // To manage error messages
-  const [success, setSuccess] = useState(""); // To manage success messages
+  
 
 
   // Handle form field changes
@@ -32,12 +33,23 @@ const SignUp = () => {
     e.preventDefault(); // Prevent page reload on form submission
     try {
       setError(""); // Reset error
-      setSuccess(""); // Reset success
+      
 
       // Send data to the backend API
       const response = await axios.post("http://localhost:8080/signup", formData,{ withCredentials: true }) // Sends the cookie back
       dispatch(addUser(response.data.data))
-      setSuccess(response?.data?.message); // Display success message
+     
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       navigate("/")
       
     } catch (err) {
@@ -55,7 +67,7 @@ const SignUp = () => {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">Sign Up</h2>
 
           {error && <p className="text-red-500 text-center">{error}</p>}
-          {success && <p className="text-green-500 text-center">{success}</p>}
+          
 
 
           <form className="space-y-4">

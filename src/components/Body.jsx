@@ -1,7 +1,13 @@
 import React from 'react';
 import heroImg from "../assets/hero.jpg"
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Feed from './Feed';
 
 const Body = () => {
+  const user = useSelector((store)=> store.user)
+  if(user)
+  return <Feed/>
   return (
     <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
       <img
@@ -16,8 +22,8 @@ const Body = () => {
         CodeMingle is the place for developers to meet and collaborate based on shared skills and interests.
       </p>
       <div className="space-x-4">
-        <button className="px-6 py-3 border border-gray-800 rounded text-gray-800 hover:bg-gray-200">Log In</button>
-        <button className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">Sign Up</button>
+        <Link to='/login'><button className="px-6 py-3 border border-gray-800 rounded text-gray-800 hover:bg-gray-200">Log In</button></Link>
+        <Link to='/signup'><button className="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600">Sign Up</button></Link>
       </div>
     </main>
   );

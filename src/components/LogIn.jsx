@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { addUser } from '../utils/slices/userSlice';
 import { useDispatch } from "react-redux";
+import { Bounce, toast } from 'react-toastify';
 
 const LogIn = () => {
   const [formData, setFormData] = useState({ emailId: '', password: '' });
@@ -23,8 +24,19 @@ const LogIn = () => {
         formData,
         { withCredentials: true } // Sends the cookie back
       );
-
-      dispatch(addUser(response.data));
+      console.log(response)
+      dispatch(addUser(response.data.data));
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       navigate('/'); // Redirect to a protected route (replace '/dashboard' with your desired route)
     } catch (err) {
       // Handle errors gracefully
