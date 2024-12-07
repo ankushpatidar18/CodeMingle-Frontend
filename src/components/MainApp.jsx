@@ -9,6 +9,7 @@ import store from '../utils/store'
 import Profile from './Profile'
 import Password from './Password'
 import PrivateRoute from './PrivateRoute'
+import Requests from './Requests'
 
 const MainApp = () => {
   const appRouter = createBrowserRouter([
@@ -32,7 +33,7 @@ const MainApp = () => {
                 path: "/profile",
                 element: (
                     <PrivateRoute>
-                        <Profile />
+                        <Profile /> 
                     </PrivateRoute>
                 )
             },
@@ -41,6 +42,14 @@ const MainApp = () => {
                 element: (
                     <PrivateRoute>
                         <Password />
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/requests",
+                element: (
+                    <PrivateRoute>
+                        <Requests />
                     </PrivateRoute>
                 )
             }
