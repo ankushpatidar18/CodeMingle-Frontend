@@ -10,6 +10,8 @@ import Profile from './Profile'
 import Password from './Password'
 import PrivateRoute from './PrivateRoute'
 import Requests from './Requests'
+import Connections from './Connections'
+import Feed from './Feed'
 
 const MainApp = () => {
   const appRouter = createBrowserRouter([
@@ -52,7 +54,24 @@ const MainApp = () => {
                         <Requests />
                     </PrivateRoute>
                 )
-            }
+            },
+            {
+                path: "/connections",
+                element: (
+                    <PrivateRoute>
+                        <Connections />
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/feed",
+                element: (
+                    <PrivateRoute>
+                        <Feed />
+                    </PrivateRoute>
+                )
+            },
+            
         ]
     }
 ]);
