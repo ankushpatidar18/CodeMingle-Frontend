@@ -36,9 +36,9 @@ const Header = () => {
       </Link>
 
       <div className="space-x-4 flex items-center relative">
-        {user?.firstName ? (
+        {user?.fullName ? (
           <>
-            <span className="text-gray-800 font-medium">Hey, {user?.firstName}</span>
+            <span className="text-gray-800 font-medium">Hey, {user?.fullName}</span>
             <div
               className="w-8 h-8 rounded-full bg-gray-200 border border-gray-300 overflow-hidden cursor-pointer"
               title="User Menu"

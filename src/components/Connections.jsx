@@ -57,7 +57,7 @@ const Connections = () => {
           <div className="flex flex-col items-center space-y-2">
             <img
               src={user.photoUrl}
-              alt={`${user.firstName} ${user.lastName}`}
+              alt={`${user.fullName}`}
               className="w-24 h-24 rounded-full object-cover"
             />
             <div className="text-center">
@@ -80,7 +80,7 @@ const Connections = () => {
           {/* Right Part: User Details */}
           <div className="mt-4">
             <p className="text-lg font-bold text-gray-800">
-              {user.firstName} {user.lastName}
+              {user.fullName}
             </p>
             <p className="text-sm text-gray-600">Age: {user.age}</p>
             <p className="text-sm text-gray-600">Gender: {user.gender}</p>

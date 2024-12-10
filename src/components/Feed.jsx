@@ -98,11 +98,11 @@ const Feed = () => {
       >
         <img
           src={currentUser?.photoUrl}
-          alt={`${currentUser?.firstName} ${currentUser?.lastName}`}
+          alt={`${currentUser?.fullName}`}
           style={{ width: "100%", borderRadius: "10px" }}
         />
         <h3>
-          {currentUser?.firstName} {currentUser?.lastName}
+          {currentUser?.fullName} 
         </h3>
         <p>Age: {currentUser?.age}</p>
         <p>Gender: {currentUser?.gender}</p>

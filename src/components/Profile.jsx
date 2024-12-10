@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { updateUser } from "../utils/slices/userSlice";
 
-
 const Profile = () => {
   const user = useSelector((state) => state.user); // Fetch user data from Redux store
   const dispatch = useDispatch();
 
-  
-
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || "",
-    lastName: user?.lastName || "",
+    fullName: user?.fullName || "",
     age: user?.age || "",
     photoUrl: user?.photoUrl || "",
     about: user?.about || "",
     skills: user?.skills || [],
+    experienceLevel: user?.experienceLevel || "", // New field
+    githubProfile: user?.githubProfile || "", // New field
+    leetCodeProfile: user?.leetCodeProfile || "", // New field
+    lookingFor: user?.lookingFor || "", // New field
   });
 
   const handleInputChange = (e) => {
@@ -46,102 +46,172 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.patch(
+      
+      
+      const response = await axios.post(
         "http://localhost:8080/profile/edit",
         formData,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
       );
-
-      // Update user in Redux after API call
+  
       dispatch(updateUser(response.data.data));
       toast.success("Profile updated successfully!");
     } catch (err) {
-      toast.error("Error updating profile!");
+      
+      
+      toast.error(
+        err.response?.data?.message || 
+        err.message || 
+        "Error updating profile!"
+      );
     }
   };
-
   return (
     <div className="flex flex-wrap">
       {/* Left Section */}
       <div className="w-full md:w-2/3 p-4">
         <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleInputChange}
-              onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleInputChange}
-              onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Age</label>
-            <input
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleInputChange}
-              onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">About</label>
-            <textarea
-              name="about"
-              value={formData.about}
-              onChange={handleInputChange}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Skills</label>
-            <div className="flex flex-wrap items-center gap-2 mt-2">
-              {formData.skills.map((skill, index) => (
-                <div
-                  key={index}
-                  className="bg-blue-500 text-white px-3 py-1 rounded-full flex items-center"
-                >
-                  <span>{skill}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteSkill(skill)}
-                    className="ml-2 text-sm text-red-300 hover:text-red-500"
-                  >
-                    &times;
-                  </button>
-                </div>
-              ))}
+          <div className="flex space-x-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">Full Name</label>
+              <input
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+                required
+              />
             </div>
-            <input
-              type="text"
-              placeholder="Type a skill and press Enter"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault(); // Prevent form submission
-                  handleAddSkill(e);
-                }
-              }}
-              className="mt-2 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
-            />
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">Age</label>
+              <input
+                type="number"
+                name="age"
+                value={formData.age}
+                onChange={handleInputChange} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+              />
+            </div>
           </div>
+
+          <div className="flex space-x-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">About</label>
+              <textarea
+                name="about"
+                value={formData.about}
+                onChange={handleInputChange} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">Skills</label>
+              <div className="flex flex-wrap items-center gap-2 mt-2">
+                {formData.skills.map((skill, index) => (
+                  <div
+                    key={index}
+                    className="bg-blue-500 text-white px-3 py-1 rounded-full flex items-center"
+                  >
+                    <span>{skill}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteSkill(skill)}
+                      className="ml-2 text-sm text-red-300 hover:text-red-500"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <input
+                type="text"
+                placeholder="Type a skill and press Enter"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault(); // Prevent form submission
+                    handleAddSkill(e);
+                  }
+                }}
+                className="mt-2 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">Experience Level</label>
+              <input
+                type="text"
+                name="experienceLevel"
+                value={formData.experienceLevel} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                onChange={handleInputChange}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">GitHub</label>
+              <input
+                type="url"
+                name="githubProfile"
+                value={formData.githubProfile} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                onChange={handleInputChange}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">LeetCode Profile</label>
+              <input
+                type="url"
+                name="leetCodeProfile"
+                value={formData.leetCodeProfile} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                onChange={handleInputChange}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">Looking For</label>
+              <input
+                type="text"
+                name="lookingFor"
+                value={formData.lookingFor} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                onChange={handleInputChange}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700">Profile Photo URL</label>
+              <input
+                type="url"
+                name="photoUrl"
+                value={formData.photoUrl} 
+                onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+                onChange={handleInputChange}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
           <button
             type="submit"
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"

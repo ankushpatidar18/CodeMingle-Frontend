@@ -87,7 +87,7 @@ const Requests = () => {
           <RequestCard
             key={request._id}
             photo={user.photoUrl}
-            name={`${user.firstName} ${user.lastName}`}
+            name={`${user.fullName}`}
             age={user.age}
             gender={user.gender}
             onAccept={() => handleAccept(user._id)}
