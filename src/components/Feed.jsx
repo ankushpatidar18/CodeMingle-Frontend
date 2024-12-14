@@ -20,8 +20,12 @@ const Feed = () => {
         { withCredentials: true }
       ); // Include pagination in the API call
 
-      if (response.data.data.length > 0) {
-        setUsers((prevUsers) => [...prevUsers, ...response.data.data]); // Append new data
+      const newUsers = response.data.data.filter(
+        (newUser) => !users.some((user) => user._id === newUser._id)
+      );
+  
+      if (newUsers.length > 0) {
+        setUsers((prevUsers) => [...prevUsers, ...newUsers]);
       } else {
         toast.info("No more users available.", { autoClose: 500 });
       }
@@ -54,14 +58,20 @@ const Feed = () => {
 
       setUsers((prevUsers) => {
         const updatedUsers = prevUsers.filter((user) => user._id !== toUserId);
+        console.log(updatedUsers.length)
+        console.log(currentIndex)
         if (currentIndex >= updatedUsers.length && updatedUsers.length > 0) {
+          setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, updatedUsers.length - 1));
+        }
+
+        if (updatedUsers.length === 0) {
+          setPage((prevPage) => prevPage + 1); // Load next batch
           setCurrentIndex(0);
         }
         return updatedUsers;
       });
 
       if (users.length <= 1) {
-        console.log(users)
         setPage((prevPage) => prevPage + 1); // Load next batch if users run out
         setCurrentIndex(0);
       } else {
@@ -79,66 +89,106 @@ const Feed = () => {
 
   if (loading && users.length === 0) return <p>Loading...</p>;
 
-  if (users.length === 0) return <p>No users available in your feed.</p>;
+  if (users.length <= 0){
+    return <p>No users available in your feed.</p>;
+  }
 
   const currentUser = users[currentIndex];
-  console.log(currentIndex)
-  console.log(currentUser)
+  // if (!currentUser) {
+  //   return <p>No users available in your feed.</p>;
+  // }
+  
+  
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
-      <div
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "10px",
-          padding: "20px",
-          width: "300px",
-          margin: "auto",
-        }}
+    <div className="border border-gray-300 rounded-lg p-6 w-80 mx-auto text-center shadow-lg bg-gray-50 mt-4">
+  {/* Circular Image */}
+  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-gray-300">
+    <img
+      src={currentUser?.photoUrl}
+      alt={`${currentUser?.fullName}`}
+      className="w-full h-full object-cover"
+    />
+  </div>
+
+  {/* Name and Experience */}
+  <h3 className="mt-2 text-xl font-bold text-gray-800">
+    {currentUser?.fullName}{" "}
+    <span className="text-blue-500 text-sm">
+      ({currentUser?.experienceLevel})
+    </span>
+  </h3>
+
+  {/* About and Looking For */}
+  <div className="mt-4 text-left">
+    <p className="text-sm text-gray-600">
+      <strong>About:</strong> {currentUser?.about}
+    </p>
+    <p className="text-sm text-gray-600 mt-2">
+      <strong>Looking For:</strong> {currentUser?.lookingFor}
+    </p>
+  </div>
+
+  {/* Skills */}
+  <div className="flex flex-wrap justify-center mt-4">
+    {currentUser?.skills.map((skill, index) => (
+      <span
+        key={index}
+        className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm m-1 shadow-sm"
+      >
+        {skill}
+      </span>
+    ))}
+  </div>
+
+  {/* Social Profiles */}
+  <div className="flex justify-center mt-6 space-x-4">
+    {currentUser?.githubProfile && (
+      <a
+        href={currentUser.githubProfile}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <img
-          src={currentUser?.photoUrl}
-          alt={`${currentUser?.fullName}`}
-          style={{ width: "100%", borderRadius: "10px" }}
+          src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          alt="GitHub"
+          className="w-8 h-8"
         />
-        <h3>
-          {currentUser?.fullName} 
-        </h3>
-        <p>Age: {currentUser?.age}</p>
-        <p>Gender: {currentUser?.gender}</p>
-        {currentUser?.skills?.length > 0 && (
-          <p>Skills: {currentUser?.skills.join(", ")}</p>
-        )}
-        <div>
-          <button
-            onClick={() => handleAction("interested", currentUser?._id)}
-            style={{
-              backgroundColor: "green",
-              color: "white",
-              padding: "10px",
-              margin: "5px",
-              border: "none",
-              borderRadius: "5px",
-            }}
-          >
-            Interested
-          </button>
-          <button
-            onClick={() => handleAction("ignored", currentUser?._id)}
-            style={{
-              backgroundColor: "red",
-              color: "white",
-              padding: "10px",
-              margin: "5px",
-              border: "none",
-              borderRadius: "5px",
-            }}
-          >
-            Ignore
-          </button>
-        </div>
-      </div>
-    </div>
+      </a>
+    )}
+    {currentUser?.leetCodeProfile && (
+      <a
+        href={currentUser.leetCodeProfile}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
+          alt="LeetCode"
+          className="w-8 h-8"
+        />
+      </a>
+    )}
+  </div>
+
+  {/* Buttons */}
+  <div className="mt-4">
+    <button
+      onClick={() => handleAction("interested", currentUser?._id)}
+      className="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 mr-2"
+    >
+      Interested
+    </button>
+    <button
+      onClick={() => handleAction("ignored", currentUser?._id)}
+      className="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600"
+    >
+      Ignore
+    </button>
+  </div>
+</div>
+
+
   );
 };
 

@@ -10,7 +10,7 @@ const Requests = () => {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const requests = useSelector(selectRequests);
-   console.log('Requests in Component:', requests);
+   
 
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Requests = () => {
         const response = await axios.get('http://localhost:8080/user/request/received', {
           withCredentials: true,
         });
-        console.log(response.data.data)
+        
         dispatch(setRequests(response.data.data));
         setError(null);
       } catch (err) {
@@ -80,16 +80,17 @@ const Requests = () => {
 
   return (
  
-    <div className="flex overflow-x-auto space-x-4 p-4">
+    <div className="flex flex-col items-center overflow-x-auto space-x-4 p-4">
       {requests?.map((request) => {
         const user = request.fromUserId;
         return (
           <RequestCard
             key={request._id}
-            photo={user.photoUrl}
-            name={`${user.fullName}`}
-            age={user.age}
-            gender={user.gender}
+            photoUrl={user.photoUrl}
+            fullName={user.fullName}
+            skills={user.skills}
+            experienceLevel={user.experienceLevel}
+            lookingFor = {user.lookingFor}
             onAccept={() => handleAccept(user._id)}
             onReject={() => handleReject(user._id)}
           />
