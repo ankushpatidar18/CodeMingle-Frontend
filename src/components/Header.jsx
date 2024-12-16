@@ -58,7 +58,7 @@ const Header = () => {
             </div>
 
             {isMenuOpen && (
-  <div className="absolute top-10 -right-6 w-48 bg-gray-700 text-white shadow-md rounded-l-lg border border-gray-200">
+  <div className="absolute top-10 -right-6 w-48 bg-gray-700 text-white shadow-md rounded-l-lg border border-gray-200 z-10">
     {/* Cross Button Row */}
     <div className="flex justify-end px-3">
       <button
