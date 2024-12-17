@@ -101,92 +101,97 @@ const Feed = () => {
   
 
   return (
-    <div className="border border-gray-300 rounded-lg p-6 w-80 mx-auto text-center shadow-lg bg-gray-50 mt-4">
-  {/* Circular Image */}
-  <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-gray-300">
-    <img
-      src={currentUser?.photoUrl}
-      alt={`${currentUser?.fullName}`}
-      className="w-full h-full object-cover"
-    />
-  </div>
-
-  {/* Name and Experience */}
-  <h3 className="mt-2 text-xl font-bold text-gray-800">
-    {currentUser?.fullName}{" "}
-    <span className="text-blue-500 text-sm">
-      ({currentUser?.experienceLevel})
+    <div className="border border-gray-200 rounded-2xl p-6 w-80 mx-auto text-center shadow-lg bg-white mt-4 overflow-hidden relative">
+    {/* Decorative background element */}
+    <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 opacity-50"></div>
+  
+    {/* Circular Image */}
+    <div className="relative w-28 h-28 mx-auto rounded-full overflow-hidden border-4 border-white shadow-md">
+      <img
+        src={currentUser?.photoUrl}
+        alt={`${currentUser?.fullName}`}
+        className="w-full h-full object-cover"
+      />
+    </div>
+  
+    {/* Name and Experience */}
+    <h3 className="mt-3 text-xl font-bold text-gray-800">
+      {currentUser?.fullName}
+    </h3>
+    <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full uppercase tracking-wide font-semibold mt-1">
+      {currentUser?.experienceLevel}
     </span>
-  </h3>
-
-  {/* About and Looking For */}
-  <div className="mt-4 text-left">
-    <p className="text-sm text-gray-600">
-      <strong>About:</strong> {currentUser?.about}
-    </p>
-    <p className="text-sm text-gray-600 mt-2">
-      <strong>Looking For:</strong> {currentUser?.lookingFor}
-    </p>
-  </div>
-
-  {/* Skills */}
-  <div className="flex flex-wrap justify-center mt-4">
-    {currentUser?.skills.map((skill, index) => (
-      <span
-        key={index}
-        className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-sm m-1 shadow-sm"
+  
+    {/* About and Looking For */}
+    <div className="mt-4 text-left space-y-2">
+      <p className="text-sm text-gray-600">
+        <span className="font-semibold text-blue-600">About:</span> {currentUser?.about}
+      </p>
+      <p className="text-sm text-gray-600">
+        <span className="font-semibold text-purple-600">Looking For:</span> {currentUser?.lookingFor}
+      </p>
+    </div>
+  
+    {/* Skills */}
+    <div className="flex flex-wrap justify-center mt-4">
+      {currentUser?.skills.map((skill, index) => (
+        <span
+          key={index}
+          className="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs m-1 border border-gray-200"
+        >
+          {skill}
+        </span>
+      ))}
+    </div>
+  
+    {/* Social Profiles */}
+    <div className="flex justify-center mt-4 space-x-3">
+      {currentUser?.githubProfile && (
+        <a
+          href={currentUser.githubProfile}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transform hover:scale-110 transition-transform duration-200"
+        >
+          <img
+            src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+            alt="GitHub"
+            className="w-6 h-6"
+          />
+        </a>
+      )}
+      {currentUser?.leetCodeProfile && (
+        <a
+          href={currentUser.leetCodeProfile}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transform hover:scale-110 transition-transform duration-200"
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
+            alt="LeetCode"
+            className="w-6 h-6"
+          />
+        </a>
+      )}
+    </div>
+  
+    {/* Buttons */}
+    <div className="mt-4 flex space-x-2">
+      <button
+        onClick={() => handleAction("interested", currentUser?._id)}
+        className="flex-1 bg-green-500 text-white px-3 py-1.5 rounded-full text-sm font-medium hover:bg-green-600 transition-colors duration-200"
       >
-        {skill}
-      </span>
-    ))}
-  </div>
-
-  {/* Social Profiles */}
-  <div className="flex justify-center mt-6 space-x-4">
-    {currentUser?.githubProfile && (
-      <a
-        href={currentUser.githubProfile}
-        target="_blank"
-        rel="noopener noreferrer"
+        Interested
+      </button>
+      <button
+        onClick={() => handleAction("ignored", currentUser?._id)}
+        className="flex-1 bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-medium hover:bg-red-600 transition-colors duration-200"
       >
-        <img
-          src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-          alt="GitHub"
-          className="w-8 h-8"
-        />
-      </a>
-    )}
-    {currentUser?.leetCodeProfile && (
-      <a
-        href={currentUser.leetCodeProfile}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/1/19/LeetCode_logo_black.png"
-          alt="LeetCode"
-          className="w-8 h-8"
-        />
-      </a>
-    )}
+        Ignore
+      </button>
+    </div>
   </div>
-
-  {/* Buttons */}
-  <div className="mt-4">
-    <button
-      onClick={() => handleAction("interested", currentUser?._id)}
-      className="bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 mr-2"
-    >
-      Interested
-    </button>
-    <button
-      onClick={() => handleAction("ignored", currentUser?._id)}
-      className="bg-red-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600"
-    >
-      Ignore
-    </button>
-  </div>
-</div>
 
 
   );

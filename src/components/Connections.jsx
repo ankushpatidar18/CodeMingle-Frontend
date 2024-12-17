@@ -57,6 +57,7 @@ const Connections = () => {
       socket.on('receiveMessage', (message) => {
         // Ensure the message is for the currently selected user
         if (message.senderId === selectedUser) {
+          console.log(selectedUser)
           setMessages((prev) => [...prev, message]);
         }
       });
@@ -204,40 +205,48 @@ const Connections = () => {
         ))}
       </div>
 
-      {/* Chat Window */}
-      {isChatOpen && selectedUser && (
-        <div className="fixed bottom-4 right-4 bg-white w-80 p-4 rounded-lg shadow-xl">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold text-gray-800">Chat</h3>
-            <button onClick={handleCloseChat} className="text-red-500">Close</button>
+     {/* Chat Window */}
+{isChatOpen && selectedUser && (
+  <div className="fixed bottom-4 right-4 bg-gradient-to-br from-indigo-500 to-purple-600 w-80 rounded-lg shadow-2xl overflow-hidden">
+    <div className="flex justify-between items-center p-4 bg-opacity-90 backdrop-blur-sm">
+      <h3 className="text-lg font-bold text-white">Chat with {selectedUser.fullName}</h3>
+      <button onClick={handleCloseChat} className="text-white hover:text-red-200 transition-colors duration-200">
+        Close
+      </button>
+    </div>
+    <div className="bg-white bg-opacity-90 backdrop-blur-sm h-64 overflow-y-auto p-4 space-y-3">
+      {messages.length === 0 ? (
+        <p className="text-center text-gray-500">No messages yet</p>
+      ) : (
+        messages.map((message, index) => (
+          <div key={index} className={`flex ${message.senderId === currentUserId ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[70%] p-3 rounded-lg ${
+              message.senderId === currentUserId
+                ? 'bg-indigo-100 text-indigo-800'
+                : 'bg-gray-100 text-gray-800'
+            }`}>
+              <p className="text-sm">{message.text}</p>
+            </div>
           </div>
-          <div className="overflow-y-scroll max-h-60 mt-2">
-            { messages.length === 0 ? (
-              <p className="text-center text-gray-500">No messages yet</p>
-            ) :(messages.map((message, index) => (
-              <div key={index} className="mb-2">
-                <p className={`text-sm ${message.senderId === currentUserId ? 'text-blue-600 text-right' : 'text-gray-600 text-left'}`}>
-                  {message.text}
-                </p>
-              </div>
-            )))}
-          </div>
-          <div className="mt-2">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              className="w-full p-2 border rounded-lg"
-              placeholder="Type a message"
-            />
-            <button
-              onClick={handleSendMessage}
-              className="w-full bg-blue-500 text-white py-2 rounded-lg mt-2 hover:bg-blue-600"
-            >
-              Send
-            </button>
-          </div>
-        </div>
+        ))
+      )}
+    </div>
+    <div className="bg-white p-4">
+      <input
+        type="text"
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+        className="w-full p-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        placeholder="Type a message"
+      />
+      <button
+        onClick={handleSendMessage}
+        className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-2 rounded-full mt-2 hover:from-indigo-600 hover:to-purple-700 transition-colors duration-200"
+      >
+        Send
+      </button>
+    </div>
+  </div>
       )}
     </div>
   );

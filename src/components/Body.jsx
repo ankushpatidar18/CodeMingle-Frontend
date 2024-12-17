@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import heroImg from "../assets/hero.jpg"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Feed from './Feed';
 
 const Body = () => {
+  const navigate = useNavigate();
   const user = useSelector((store)=> store.user)
-  if(user)
-  return <Feed/>
+  useEffect(() => {
+    if (user) {
+      navigate("/feed");
+    }
+  }, [user, navigate]);
   return (
     <main className="flex-grow flex flex-col items-center justify-center text-center px-4">
       <img
