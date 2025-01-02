@@ -15,7 +15,7 @@ const Connections = () => {
   const { data: connections, loading, error } = useSelector(
     (state) => state.connections
   );
-  const currentUserId = useSelector((state) => state.user._id);
+  const currentUserId = useSelector((state) => state.user.user._id);
   
   const [socket, setSocket] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -25,7 +25,7 @@ const Connections = () => {
 
   useEffect(() => {
     // Initialize socket(Todo : withcredentials (token))
-    const socketInstance = io('http://localhost:8080');  // Adjust URL as needed
+    const socketInstance = io('http://localhost:8080');  
     console.log(socketInstance)
     setSocket(socketInstance);
 

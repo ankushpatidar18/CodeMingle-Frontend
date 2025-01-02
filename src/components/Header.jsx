@@ -6,7 +6,8 @@ import axios from "axios";
 import { Bounce, toast } from "react-toastify";
 
 const Header = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user?.user);
+ 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();

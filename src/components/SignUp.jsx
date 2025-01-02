@@ -8,7 +8,7 @@ import { Bounce, toast } from 'react-toastify';
 const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // State to manage form data
+  
   const [formData, setFormData] = useState({
     fullName: "",
     emailId: "",
@@ -18,9 +18,9 @@ const SignUp = () => {
     skills: [],
   });
 
-  const [error, setError] = useState(""); // To manage error messages
+  const [error, setError] = useState(""); 
 
-  // Handle form field changes
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
   
@@ -31,15 +31,15 @@ const SignUp = () => {
   };
   
 
-  // Handle form submission
+  
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload on form submission
+    e.preventDefault(); 
     try {
-      setError(""); // Reset error
+      setError(""); 
 
-      // Send data to the backend API
+      
       const response = await axios.post("http://localhost:8080/signup", formData, {
-        withCredentials: true, // Sends the cookie back
+        withCredentials: true, 
       });
       dispatch(addUser(response.data.data));
 
@@ -56,7 +56,7 @@ const SignUp = () => {
       });
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong!"); // Display error message
+      setError(err.response?.data?.message || "Something went wrong!"); 
     }
   };
 

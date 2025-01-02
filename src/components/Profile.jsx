@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { updateUser } from "../utils/slices/userSlice";
 
 const Profile = () => {
-  const user = useSelector((state) => state.user); // Fetch user data from Redux store
+  const user = useSelector((state) => state.user.user); 
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -14,10 +14,10 @@ const Profile = () => {
     photoUrl: user?.photoUrl || "",
     about: user?.about || "",
     skills: user?.skills || [],
-    experienceLevel: user?.experienceLevel || "", // New field
-    githubProfile: user?.githubProfile || "", // New field
-    leetCodeProfile: user?.leetCodeProfile || "", // New field
-    lookingFor: user?.lookingFor || "", // New field
+    experienceLevel: user?.experienceLevel || "", 
+    githubProfile: user?.githubProfile || "", 
+    leetCodeProfile: user?.leetCodeProfile || "", 
+    lookingFor: user?.lookingFor || "", 
   });
 
   const handleInputChange = (e) => {
@@ -27,12 +27,12 @@ const Profile = () => {
 
   const handleAddSkill = (e) => {
     if (e.key === "Enter" && e.target.value.trim()) {
-      // Update skills locally
+     
       setFormData({
         ...formData,
         skills: [...formData.skills, e.target.value.trim()],
       });
-      e.target.value = ""; // Clear input after adding a skill
+      e.target.value = ""; 
     }
   };
 
@@ -139,7 +139,7 @@ const Profile = () => {
                 placeholder="Type a skill and press Enter"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    e.preventDefault(); // Prevent form submission
+                    e.preventDefault(); 
                     handleAddSkill(e);
                   }
                 }}

@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import heroImg from "../assets/hero.jpg"
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Feed from './Feed';
+
 
 const Body = () => {
   const navigate = useNavigate();
-  const user = useSelector((store)=> store.user)
+
+  const user = useSelector((store)=> store.user.user)
+  
   useEffect(() => {
     if (user) {
       navigate("/feed");

@@ -27,7 +27,7 @@ const Password = () => {
      
       dispatch(updateUser(response.data.data))
       toast.success(response.data.message || "Password updated successfully!");
-      setFormData({ currentPassword: "", newPassword: "" }); // Clear the form
+      setFormData({ currentPassword: "", newPassword: "" }); 
     } catch (err) {
       const errorMessage =
         err.response?.data?.message || "Failed to update password!";

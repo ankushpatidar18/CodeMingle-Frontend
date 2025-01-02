@@ -20,7 +20,7 @@ const LogIn = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:8080/login', // Adjust based on your backend URL
+        'http://localhost:8080/login', 
         formData,
         { withCredentials: true } // Sends the cookie back
       );
@@ -37,9 +37,9 @@ const LogIn = () => {
         theme: "light",
         transition: Bounce,
         });
-      navigate('/'); // Redirect to a protected route (replace '/dashboard' with your desired route)
+      navigate('/'); 
     } catch (err) {
-      // Handle errors gracefully
+      
       const message = err.response?.data?.message || 'Login failed. Please try again.';
       setErrorMessage(message);
     }
