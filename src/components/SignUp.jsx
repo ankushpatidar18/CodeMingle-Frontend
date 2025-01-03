@@ -54,7 +54,7 @@ const SignUp = () => {
         theme: "light",
         transition: Bounce,
       });
-      navigate("/");
+      return navigate("/profile");
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong!"); 
     }

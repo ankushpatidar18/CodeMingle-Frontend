@@ -37,7 +37,7 @@ const LogIn = () => {
         theme: "light",
         transition: Bounce,
         });
-      navigate('/'); 
+      return navigate('/'); 
     } catch (err) {
       
       const message = err.response?.data?.message || 'Login failed. Please try again.';

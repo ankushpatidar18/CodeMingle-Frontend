@@ -27,7 +27,7 @@ const Header = () => {
         theme: "light",
         transition: Bounce,
       });
-    navigate("/")
+    return navigate("/")
   };
 
   return (
